@@ -15,43 +15,67 @@
  * limitations under the License.
  */
 
+/*
+ * This file has been modified by Mashery, Inc.
+ * 
+ * Note that the original work's copyright and license information is located at
+ * the top of this file. Any modifications made by Mashery, Inc. are licensed
+ * under the following license.
+ * 
+ * Copyright (c) 2012 Mashery, Inc. 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *  
+ * @author Neil Mansilla <neil@mashery.com>
+ */
+
 global $apiConfig;
 $apiConfig = array(
     // True if objects should be returned by the service classes.
     // False if associative arrays should be returned (default behavior).
-    'use_objects' => false,
+    'use_objects' => true,
   
     // The application_name is included in the User-Agent HTTP header.
-    'application_name' => '',
-
-    // OAuth2 Settings, you can get these keys at https://code.google.com/apis/console
-    'oauth2_client_id' => '',
-    'oauth2_client_secret' => '',
-    'oauth2_redirect_uri' => '',
+    'application_name' => 'mashery-io-wraps',
 
     // The developer key, you get this at https://code.google.com/apis/console
     'developer_key' => '',
+    'developer_secret' => '',
 
-    // OAuth1 Settings.
-    // If you're using the apiOAuth auth class, it will use these values for the oauth consumer key and secret.
-    // See http://code.google.com/apis/accounts/docs/RegistrationForWebAppsAuto.html for info on how to obtain those
-    'oauth_consumer_key'    => 'anonymous',
-    'oauth_consumer_secret' => 'anonymous',
-  
-    // Site name to show in the Google's OAuth 1 authentication screen.
-    'site_name' => 'www.example.org',
+    // Name of the signature parameter sent to the query string
+    // Note: used only when developer_secret is set.
+    'signature_name' => 'sig',
+
+    // Signature hashing algorithm ('md5', 'sha256', etc.)
+    'signature_type' => 'md5',
+
+    // Name of the API key parameter sent to the query string
+    'key_name' => 'apikey',
 
     // Which Authentication, Storage and HTTP IO classes to use.
-    'authClass'    => 'apiOAuth2',
+    'authClass'    => 'apiAuthNone',
     'ioClass'      => 'apiCurlIO',
     'cacheClass'   => 'apiFileCache',
 
-    // If you want to run the test suite (by running # phpunit AllTests.php in the tests/ directory), fill in the settings below
-    'oauth_test_token' => '', // the oauth access token to use (which you can get by runing authenticate() as the test user and copying the token value), ie '{"key":"foo","secret":"bar","callback_url":null}'
-    'oauth_test_user' => '', // and the user ID to use, this can either be a vanity name 'testuser' or a numberic ID '123456'
-
-    // Don't change these unless you're working against a special development or testing environment.
-    'basePath' => 'https://www.googleapis.com',
+    // URL where API requests are sent (https also supported)
+    'basePath' => 'http://api.yourdomain.com',
 
     // IO Class dependent configuration, you only have to configure the values for the class that was configured as the ioClass above
     'ioFileCache_directory'  =>
@@ -59,34 +83,5 @@ $apiConfig = array(
             sys_get_temp_dir() . '/apiClient' :
         '/tmp/apiClient'),
     'ioMemCacheStorage_host' => '127.0.0.1',
-    'ioMemcacheStorage_port' => '11211',
-
-    // Definition of service specific values like scopes, oauth token URLs, etc
-    'services' => array(
-      'analytics' => array('scope' => 'https://www.googleapis.com/auth/analytics.readonly'),
-      'calendar' => array(
-          'scope' => array(
-              "https://www.googleapis.com/auth/calendar",
-              "https://www.googleapis.com/auth/calendar.readonly",
-          )
-      ),
-      'books' => array('scope' => 'https://www.googleapis.com/auth/books'),
-      'latitude' => array(
-          'scope' => array(
-              'https://www.googleapis.com/auth/latitude.all.best',
-              'https://www.googleapis.com/auth/latitude.all.city',
-          )
-      ),
-      'moderator' => array('scope' => 'https://www.googleapis.com/auth/moderator'),
-      'oauth2' => array(
-          'scope' => array(
-              'https://www.googleapis.com/auth/userinfo.profile',
-              'https://www.googleapis.com/auth/userinfo.email',
-          )
-      ),
-      'plus' => array('scope' => 'https://www.googleapis.com/auth/plus.me'),
-      'siteVerification' => array('scope' => 'https://www.googleapis.com/auth/siteverification'),
-      'tasks' => array('scope' => 'https://www.googleapis.com/auth/tasks'),
-      'urlshortener' => array('scope' => 'https://www.googleapis.com/auth/urlshortener')
-    )
+    'ioMemcacheStorage_port' => '11211'
 );
